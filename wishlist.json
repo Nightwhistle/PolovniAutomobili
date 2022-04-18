@@ -1,0 +1,29 @@
+{
+    "wishlist": [
+        {
+            "manufacturer": "citroen",
+            "model": "c3",
+            "year": "2017-2022",
+            "price": "5000-7000"
+        },
+        {
+            "manufacturer": "citroen",
+            "model": "c4",
+            "year": "2000-2022",
+            "price": "2000-200000"
+        },
+        {
+            "manufacturer": "ford",
+            "model": "focus",
+            "year": "2016-2018",
+            "price": "5000-7000"
+        },
+        {
+            "manufacturer": "audi",
+            "model": "a3",
+            "year": "2012-2015",
+            "price": "5000-8000"
+        }
+
+    ]
+}
