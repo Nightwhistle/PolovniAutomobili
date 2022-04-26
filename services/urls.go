@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+	"os/exec"
+	"runtime"
 	"strings"
 )
 
@@ -38,9 +41,25 @@ func GetUrls() []string {
 
 	var urls []string
 
+	// Novi sad: region%%5B%%5D=2550&
+	// Beograd:  region%%5B%%5D=Beograd
 	for _, wishlistItem := range wishlist.WishlistItems {
 		url := fmt.Sprintf(
-			"https://www.polovniautomobili.com/auto-oglasi/pretraga?brand=%s&model%%5B%%5D=%s&price_from=%s&price_to=%s&year_from=%s&year_to=%s&showOldNew=all&submit_1=&without_price=0",
+			"https://www.polovniautomobili.com/auto-oglasi/pretraga?"+
+				"brand=%s"+
+				"&model%%5B%%5D=%s"+
+				"&price_from=%s"+
+				"&price_to=%s"+
+				"&year_from=%s"+
+				"&year_to=%s"+
+				"&showOldNew=all"+
+				"&region%%5B%%5D=Beograd"+
+				"&door_num=3013"+
+				"&mileage_to=200000"+
+				"&chassis%%5B%%5D=277"+
+				"&chassis%%5B%%5D=2631"+
+				"&submit_1="+
+				"&without_price=0",
 			wishlistItem.Manufacturer,
 			wishlistItem.Model,
 			strings.Split(wishlistItem.Price, "-")[0],
@@ -53,4 +72,22 @@ func GetUrls() []string {
 	}
 
 	return urls
+}
+
+func OpenBrowser(url string) {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
 }

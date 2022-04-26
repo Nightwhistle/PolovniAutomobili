@@ -1,27 +1,51 @@
 {
     "wishlist": [
         {
-            "manufacturer": "citroen",
-            "model": "c3",
-            "year": "2017-2022",
-            "price": "5000-7000"
+            "manufacturer": "ford",
+            "model": "focus",
+            "year": "2013-2020",
+            "price": "5000-8000"
         },
         {
             "manufacturer": "citroen",
             "model": "c4",
-            "year": "2000-2022",
-            "price": "2000-200000"
+            "year": "2013-2020",
+            "price": "5000-8500"
         },
         {
-            "manufacturer": "ford",
-            "model": "focus",
-            "year": "2016-2018",
-            "price": "5000-7000"
+            "manufacturer": "peugeot",
+            "model": "308",
+            "year": "2013-2020",
+            "price": "5000-8000"
         },
         {
-            "manufacturer": "audi",
-            "model": "a3",
-            "year": "2012-2015",
+            "manufacturer": "opel",
+            "model": "astra",
+            "year": "2013-2020",
+            "price": "5000-8000"
+        },
+        {
+            "manufacturer": "renault",
+            "model": "megane",
+            "year": "2013-2020",
+            "price": "5000-8000"
+        },
+        {
+            "manufacturer": "skoda",
+            "model": "rapid",
+            "year": "2013-2020",
+            "price": "5000-8000"
+        },
+        {
+            "manufacturer": "hyundai",
+            "model": "i30",
+            "year": "2013-2020",
+            "price": "5000-8000"
+        },
+        {
+            "manufacturer": "citroen",
+            "model": "c3",
+            "year": "2017-2020",
             "price": "5000-8000"
         }
 

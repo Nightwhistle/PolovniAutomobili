@@ -25,6 +25,8 @@ func (or *OffersRepository) GetOffers() []models.Offer {
 			record[2],
 			record[3],
 			record[4],
+			record[5],
+			record[6],
 		}
 
 		offers = append(offers, offer)

@@ -10,6 +10,7 @@ import (
 func NewRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(cors.Default())
+	router.LoadHTMLGlob("templates/*")
 
 	offers := new(controllers.OfferController)
 

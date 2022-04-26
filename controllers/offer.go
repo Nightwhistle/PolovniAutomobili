@@ -1,11 +1,14 @@
 package controllers
 
 import (
+	"net/http"
 	"regexp"
 	"stream-api/models"
 	"stream-api/repository"
 	"stream-api/services"
+	"sync"
 
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +18,7 @@ import (
 type OfferController struct{}
 
 func (oc OfferController) Fetch(ctx *gin.Context) {
+	var wg sync.WaitGroup
 	var offers []models.Offer
 
 	er := repository.OffersRepository{}
@@ -30,8 +34,24 @@ func (oc OfferController) Fetch(ctx *gin.Context) {
 
 			price := strings.TrimSpace(a.ChildText(".price"))
 			offer.Price = space.ReplaceAllString(price, " ")
-			offer.Link = a.ChildAttr("a.ga-title", "href")
-			offer.Mileage = a.ChildText(".setInfo:nth-child(2) .top")
+			offer.Link = "https://www.polovniautomobili.com" + a.ChildAttr("a.ga-title", "href")
+
+			offer.Year = a.ChildText(".setInfo:nth-child(1) .top")
+			offer.Volume = a.ChildText(".setInfo:nth-child(1) .bottom")
+
+			mileage := strings.ReplaceAll(a.ChildText(".setInfo:nth-child(2) .top"), "km", "")
+			mileage = strings.ReplaceAll(mileage, ".", "")
+			mileage = strings.TrimSpace(mileage)
+			mileageInt, err := strconv.Atoi(mileage)
+			offer.Mileage = mileage
+
+			if err != nil {
+				panic(err)
+			}
+
+			if mileageInt > 180000 {
+				return
+			}
 
 			offers = append(offers, offer)
 		})
@@ -49,15 +69,23 @@ func (oc OfferController) Fetch(ctx *gin.Context) {
 
 	urls := services.GetUrls()
 	for _, url := range urls {
-		go visitUrls(c, url)
+		wg.Add(1)
+
+		go visitUrls(c, url, &wg)
 	}
-	// c.JSON(200, mongoDocument.Events)
+
+	wg.Wait()
+
+	ctx.HTML(http.StatusOK, "index.tmpl", gin.H{
+		"Offers": offers,
+	})
 }
 
 func (oc OfferController) Index(c *gin.Context) {
 }
 
-func visitUrls(c *colly.Collector, url string) {
+func visitUrls(c *colly.Collector, url string, wg *sync.WaitGroup) {
+	defer wg.Done()
 	println("Visiting", url)
 	c.Visit(url)
 }
